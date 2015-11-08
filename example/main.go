@@ -6,14 +6,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/huichen/consistent"
+	"github.com/huichen/consistent_hashing"
 	"log"
 	"math/rand"
 )
 
 func main() {
 	{
-		c := consistent.New()
+		c := consistent_hashing.New()
 		c.Add("127.9.9.3:3322")
 		c.Add("127.9.9.3:3323")
 		c.Add("127.9.9.3:3324")
@@ -38,7 +38,7 @@ func main() {
 	}
 
 	{
-		c := consistent.New()
+		c := consistent_hashing.New()
 		c.Add("127.9.9.3:3322")
 		c.Add("127.9.9.3:3323")
 		c.Add("127.9.9.3:3324")
