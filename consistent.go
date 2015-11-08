@@ -18,11 +18,11 @@
 //
 // Read more about consistent hashing on wikipedia:  http://en.wikipedia.org/wiki/Consistent_hashing
 //
-package consistent // import "stathat.com/c/consistent"
+package consistent
 
 import (
 	"errors"
-	"hash/crc32"
+	"github.com/huichen/murmur"
 	"sort"
 	"strconv"
 	"sync"
@@ -58,7 +58,7 @@ type Consistent struct {
 // To change the number of replicas, set NumberOfReplicas before adding entries.
 func New() *Consistent {
 	c := new(Consistent)
-	c.NumberOfReplicas = 20
+	c.NumberOfReplicas = 1000
 	c.circle = make(map[uint32]string)
 	c.members = make(map[string]bool)
 	return c
@@ -239,9 +239,9 @@ func (c *Consistent) hashKey(key string) uint32 {
 	if len(key) < 64 {
 		var scratch [64]byte
 		copy(scratch[:], key)
-		return crc32.ChecksumIEEE(scratch[:len(key)])
+		return murmur.Murmur3(scratch[:len(key)])
 	}
-	return crc32.ChecksumIEEE([]byte(key))
+	return murmur.Murmur3([]byte(key))
 }
 
 func (c *Consistent) updateSortedHashes() {
